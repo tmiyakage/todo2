@@ -1,0 +1,247 @@
+body {
+    font-family: 'Yu Gothic', sans-serif;
+}
+
+/* ヘッダーのスタイル */
+.header {
+    background-color: #f0f0f0; /* パネルの背景色 */
+    padding: 15px; /* パネルの内側の余白 */
+    border: 1px solid #ccc; /* パネルのボーダー */
+    border-radius: 5px; /* パネルの角の丸み */
+    display: flex; /* フレックスコンテナ */
+    justify-content: space-between; /* コンテンツを均等に配置 */
+    align-items: center; /* コンテンツを中央に配置 */
+}
+
+/* ソートボタンのスタイル */
+#sortButton {
+    background-color: #ccc; /* ボタンの背景色 */
+    color: #555; /* テキストの色 */
+    border: none; /* ボーダーなし */
+    padding: 10px 20px; /* ボタンの内側の余白 */
+    border-radius: 5px; /* ボタンの角の丸み */
+    cursor: pointer; /* ポインターの形状を指定 */
+    font-size: 14px; /* フォントサイズ */
+    font-weight: bold; /* フォントの太さ */
+    transition: background-color 0.3s ease; /* ホバー時のトランジション効果 */
+}
+
+/* ソートボタンのホバー時のスタイル変更 */
+#sortButton:hover {
+    background-color: #bbb; /* ホバー時の背景色 */
+}
+
+/* 追加ボタンのスタイル */
+#addButton {
+    background-color: #4CAF50; /* ボタンの背景色 */
+    color: #fff; /* テキストの色 */
+    border: none; /* ボーダーなし */
+    padding: 10px 20px; /* ボタンの内側の余白 */
+    border-radius: 5px; /* ボタンの角の丸み */
+    cursor: pointer; /* ポインターの形状を指定 */
+    font-size: 14px; /* フォントサイズ */
+    font-weight: bold; /* フォントの太さ */
+    transition: background-color 0.3s ease; /* ホバー時のトランジション効果 */
+}
+
+/* 追加ボタンのホバー時のスタイル変更 */
+#addButton:hover {
+    background-color: #45a049; /* ホバー時の背景色 */
+}
+
+/* 入力欄のスタイル */
+.add-todo-form {
+    display: flex; /* フレックスコンテナ */
+    align-items: center; /* コンテンツを中央に配置 */
+}
+
+.add-todo-form input {
+    padding: 10px; /* 入力欄の内側の余白 */
+    border: 1px solid #ccc; /* 入力欄のボーダー */
+    border-radius: 5px; /* 入力欄の角の丸み */
+    margin-right: 10px; /* 右側のマージン */
+}
+
+/* 入力欄の追加ボタンのスタイル */
+.add-todo-form button {
+    background-color: #4CAF50; /* ボタンの背景色 */
+    color: #fff; /* テキストの色 */
+    border: none; /* ボーダーなし */
+    padding: 10px 20px; /* ボタンの内側の余白 */
+    border-radius: 5px; /* ボタンの角の丸み */
+    cursor: pointer; /* ポインターの形状を指定 */
+    font-size: 14px; /* フォントサイズ */
+    font-weight: bold; /* フォントの太さ */
+    transition: background-color 0.3s ease; /* ホバー時のトランジション効果 */
+}
+
+/* 入力欄の追加ボタンのホバー時のスタイル変更 */
+.add-todo-form button:hover {
+    background-color: #45a049; /* ホバー時の背景色 */
+}
+
+/* .sortable-item に関するスタイル */
+.sortable-item {
+    position: relative; /* 相対位置指定 */
+    border: 1px solid #eee;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 状態に基づいて背景色を変更するスタイル */
+.sortable-item.completed {
+    background-color: #eafbea; /* 完了したアイテムの背景色 */
+}
+
+.sortable-item.today {
+    background-color: #fff7e6; /* 今日やるアイテムの背景色 */
+}
+
+.sortable-item.uncompleted {
+    background-color: #ffebeb; /* 未完了のアイテムの背景色 */
+}
+
+/* 状態ボタンのスタイル */
+.sortable-item .actions {
+    position: absolute; /* 絶対位置指定 */
+    top: 50%; /* 上端を中央に寄せる */
+    transform: translateY(-50%); /* 垂直方向の中央寄せ */
+    right: 50px; /* 右端に配置 */
+}
+
+/* 各状態に対応するボタンのスタイルを変更 */
+.sortable-item .actions a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* ホバー時のスタイル変更 */
+.sortable-item .actions a:hover {
+    background-color: #333;
+}
+
+.sortable-item .actions2 {
+    position: absolute; /* 絶対位置指定 */
+    top: 50%; /* 上端を中央に寄せる */
+    transform: translateY(-50%); /* 垂直方向の中央寄せ */
+    right: 10px; /* 右端に配置 */
+}
+
+/* 各状態に対応するボタンのスタイルを変更 */
+.sortable-item .actions2 a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* ホバー時のスタイル変更 */
+.sortable-item .actions2 a:hover {
+    background-color: #333;
+}
+
+/* 各状態に対応するボタンの色を変更 */
+.sortable-item.completed .actions a {
+    background-color: #4CAF50; /* 完了したアイテムのボタンの色 */
+}
+
+.sortable-item.today .actions a {
+    background-color: #FFA500; /* 今日やるアイテムのボタンの色 */
+}
+
+.sortable-item.uncompleted .actions a {
+    background-color: #FF4500; /* 未完了のアイテムのボタンの色 */
+}
+
+/* デリートボタンのスタイル */
+.sortable-item .actions2 .delete-button {
+    background-color: #ccc;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* デリートボタンのホバー時のスタイル変更 */
+.sortable-item .actions2 .delete-button:hover {
+    background-color: #ff6666;
+}
+
+.sortable-item .item {
+    width: 50%; /* 幅を100%に設定 */
+    display: block; /* ブロックレベル要素に変更 */
+    text-align: left; /* 左揃えに設定 */
+    margin-bottom: 10px; /* 適切なマージンを指定 */
+}
+
+/* モバイルデバイス用のスタイル */
+@media only screen and (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sort-buttons {
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    .sortable-item {
+        flex-direction: column;
+        align-items: stretch;
+        height: 130px;
+    }
+
+    .sortable-item .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px; /* 適切なマージンを指定 */
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+
+    .sortable-item .actions a {
+        margin-top: 5px; /* 適切なマージンを指定 */;
+        margin-bottom: 5px; /* 適切なマージンを指定 */;
+        width: 60px;
+    }
+
+    .sortable-item.completed .actions,
+    .sortable-item.today .actions,
+    .sortable-item.uncompleted .actions {
+        /* 自動的に高さを調整 */
+        margin: 10px;
+    } 
+    .sortable-item .actions2 {
+        top: 20%; /* 上端を中央に寄せる */
+    }
+}
+

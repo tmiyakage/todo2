@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoアプリ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='Sortable-master/Sortable.min.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <h1 style="font-family: Arial;">To Do</h1>
+        <div class="sort-buttons">
+            <button id="sortButton" onclick="toggleSortOrder()">ソート</button>
+        </div>
+        <form action="/add" method="post" class="add-todo-form">
+            <input type="text" name="new_todo" required>
+            <button type="submit">追加</button>
+        </form>
+    </div>    
+    <ul id="my_sortable">
+        {% for todo in todos %}
+            <li class="sortable-item panel {% if todo.status == '完了' %}completed{% elif todo.status == '今日やる' %}today{% elif todo.status == '未完了' %}uncompleted{% endif %}" data-todo-id="{{ loop.index-1 }}">
+                <span class="item"><b>{{ todo.task }}</b> : {{ todo.status }}</span>
+                <div class="actions">
+                    <a href="{{ url_for('update_status', todo_id=loop.index-1, status='完了') }}">完了</a>
+                    <a href="{{ url_for('update_status', todo_id=loop.index-1, status='今日やる') }}">今日やる</a>
+                    <a href="{{ url_for('update_status', todo_id=loop.index-1, status='未完了') }}">未完了</a>
+                </div>
+                <div class="actions2">
+                    <a href="{{ url_for('delete', todo_id=loop.index-1) }}" class="delete-button">×</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <!-- ToDoアイテムのドラッグ&ドロップを有効にする -->
+    <script>
+        // ToDoアイテムのドラッグ&ドロップを有効にする
+        new Sortable(document.getElementById('my_sortable'), {
+            animation: 150,
+            onStart: function (evt) {
+                // ドラッグが始まったときの処理
+                // ここに必要な場合のカスタムコードを追加
+            },
+            onEnd: function (evt) {
+                // ToDoアイテムの順序が変更されたときの処理
+                var todoIds = Array.from(document.getElementsByClassName('sortable-item')).map(function (item) {
+                    return item.getAttribute('data-todo-id');
+                });
+    
+                // サーバーに新しい順序を送信
+                fetch('/update_order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ new_order: todoIds }),
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+    <script>
+        var sortOrder = 0; // ソートの初期状態
+    
+        function toggleSortOrder() {
+            // ソートの状態を切り替え
+            sortOrder = (sortOrder + 1) % 3;
+    
+            // ソートを実行
+            sortTodos();
+        }
+    
+        function sortTodos() {
+            // ToDoアイテムのデータを取得
+            var todos = Array.from(document.getElementsByClassName('sortable-item'));
+    
+            // ソートの状態に基づいてソート
+            todos.sort(function (a, b) {
+                var statusA = getStatusOrder(a);
+                var statusB = getStatusOrder(b);
+                return statusA - statusB;
+            });
+    
+            // ソート結果を表示に反映
+            var sortableList = document.getElementById('my_sortable');
+            sortableList.innerHTML = ''; // リストをクリア
+            todos.forEach(function (todo) {
+                sortableList.appendChild(todo);
+            });
+        }
+    
+        function getStatusOrder(element) {
+            // ソートの状態に基づいてソート順を取得
+            var statuses = ['uncompleted', 'today', 'completed'];
+            for (var i = 0; i < statuses.length; i++) {
+                if (element.classList.contains(statuses[i])) {
+                    return (i + sortOrder) % 3;
+                }
+            }
+            return -1;
+        }
+    </script>
+
+</body>
+</html>
