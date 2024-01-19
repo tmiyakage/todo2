@@ -39,6 +39,7 @@ def load_todos():
             request = drive_service.files().get_media(fileId=file_id)
             file_content = request.execute()
             todos_data = json.loads(file_content.decode('utf-8'))
+            save_todos()
             initial_load_complete = True
         else:
             # 2回目以降はローカルから
