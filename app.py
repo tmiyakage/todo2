@@ -32,9 +32,9 @@ initial_load_complete = False
 def load_todos():
     global initial_load_complete
     try:
+        global todos_data
         if not initial_load_complete:
             # 初回のロードはGoogle Driveから
-            global todos_data
             file_id = '1h0JpoYAHgiALQfDpeibw1KHyBtLXLv21'
             request = drive_service.files().get_media(fileId=file_id)
             file_content = request.execute()
@@ -45,6 +45,14 @@ def load_todos():
             # 2回目以降はローカルから
             with open(JSON_FILE_PATH, 'r', encoding='utf-8') as file:
                 todos_data = json.load(file)
+                if todos_data[0]["task"] == "loadtestdesu":
+                    file_id = '1h0JpoYAHgiALQfDpeibw1KHyBtLXLv21'
+                    request = drive_service.files().get_media(fileId=file_id)
+                    file_content = request.execute()
+                    todos_data = json.loads(file_content.decode('utf-8'))
+                    save_todos()
+                    initial_load_complete = True
+                    
     except Exception as e:
         print(f"Error loading todos: {e}")
         todos_data = []
